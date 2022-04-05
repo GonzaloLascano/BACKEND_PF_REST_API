@@ -14,29 +14,21 @@ class Chart {
 }
 
 /* File System functions. */
-async function loadProds(){
+async function loadFiles(object, path){
     try{
-        products = await fs.promises.readFile(productsPath, 'utf-8')
+        object = await fs.promises.readFile(path, 'utf-8')
     }
     catch (err){
-        console.log('could not read products file! ' + err)
+        console.log('could not read file! ' + err)
     }
 }
 
-async function loadCharts(){
+async function writeFile(object, path){
     try{
-        charts = await fs.promises.readFile(chartsPath, 'utf-8')
+        await fs.promises.writeFile(path, JSON.stringify(object))
     }
     catch (err){
-        console.log('could not read charts file! ' + err)
+        console.log('could not write file! ' + err)
     }
 }
 
-async function writeProds(){
-    try{
-        await fs.promises.writeFile(productsPath, JSON.stringify(products))
-    }
-    catch (err){
-        console.log('could not write product file! ' + err)
-    }
-}
