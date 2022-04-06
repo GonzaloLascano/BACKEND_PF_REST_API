@@ -1,4 +1,3 @@
-//const memory = require('./memory')
 const express = require('express')
 const { Router } = require('express')
 const { json } = require('express/lib/response')
@@ -112,7 +111,7 @@ function middleAdminSim (req, res, next){
 
 const prodRouter = express.Router()
 const chartRouter = express.Router()
-app.use(express.urlencoded({ extended: true })) //puede que haya que usarlo con cada router en lugar de con app
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 prodRouter.get('/:id?', middleLoader, middleIdentifier, (req, res) =>{
@@ -170,7 +169,6 @@ prodRouter.delete('/:id',middleAdminSim, middleLoader, middleIdentifier, (req, r
 chartRouter.post('/', middleLoader, (req, res) =>{
     let newChart = new Chart(0, Date.now(), [])
     newChart = {...newChart, id: (charts.length === 0 ? 1 : (charts[charts.length - 1].id + 1))}
-    //console.log(newChart)
     charts.push(newChart)
     writeFile(charts, chartsPath)
     res.json({mensaje: `New empty chart created: id: ${newChart.id}`})
@@ -241,4 +239,3 @@ server.on('error', error => console.log({mensaje: `could not initiate server: ${
 
 app.use('/api/productos', prodRouter)
 app.use('/api/carrito', chartRouter)
- //puede que haya que usarlo con cada router en lugar de con app
