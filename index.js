@@ -63,34 +63,24 @@ const PORT = 8080
 
 // identificador de producto por ID en caso de existir el parametro
 function middleIdentifier (req, res, next){
-    if (req.params.id) {
-        let error = {mensaje: 'No se pudo encontrar el producto buscado'}
-        req.idProduct = products.filter((product) => {
-            if (product.id == req.params.id) {
-                return product
-            }
-        })
-        if(req.idProduct.length == 0){
-            res.json(error)
-        }
-        else {next()}
+    let error = {mensaje: 'Producto no encontrado'}
+    req.idProduct = products.find(product => product.id == req.params.id)
+    if (req.params.id === undefined) {res.json(products)}
+    else if(req.idProduct){
+        next()
     }
-    else {next()}
+    else {res.json(error)}
 }
 
 function middleChartIdentifier (req, res, next){
     if (req.params.id) {
-        let error = {mensaje: 'No se pudo encontrar el carrito buscado'}
-        req.idChart = charts.filter((chart) => {
-            if (chart.id == req.params.id) {
-                return chart
-            }
-        })
-        if(req.idChart.length == 0){
-            res.json(error)
+        let error = {mensaje: 'Producto no encontrado'}
+        req.idChart = charts.find(chart => chart.id == req.params.id)
+        if(req.idChart){
+            next()
         }
-        else {next()}
-    }
+        else {res.json(error)}
+        }
     else {next()}
 }
 
@@ -113,6 +103,7 @@ const prodRouter = express.Router()
 const chartRouter = express.Router()
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
 
 prodRouter.get('/:id?', middleLoader, middleIdentifier, (req, res) =>{
     if (req.params.id) {
@@ -150,18 +141,14 @@ prodRouter.put('/:id', middleAdminSim, middleLoader, middleIdentifier, (req, res
     })
     console.log(products)
     writeFile(products, productsPath)
-    res.json({mensaje: 'Objeto modificado con exito!'})
+    res.json({mensaje: 'Product successfully modified!'})
 })
 
 prodRouter.delete('/:id',middleAdminSim, middleLoader, middleIdentifier, (req, res) => {
-    products = products.filter((product) => {
-        if (product.id != req.params.id) {
-            return product
-        }    
-    })
+    products = products.filter(product => product !== req.idProduct)
     console.log(products)
     writeFile(products, productsPath)
-    res.json({mensaje: 'product deleted successfully'})
+    res.json({mensaje: 'product successfully deleted'})
 })
 
 /* Chart Router */
@@ -171,7 +158,7 @@ chartRouter.post('/', middleLoader, (req, res) =>{
     newChart = {...newChart, id: (charts.length === 0 ? 1 : (charts[charts.length - 1].id + 1))}
     charts.push(newChart)
     writeFile(charts, chartsPath)
-    res.json({mensaje: `New empty chart created: id: ${newChart.id}`})
+    res.json({mensaje: `New empty chart created! id: ${newChart.id}`})
 })
 
 chartRouter.delete('/:id', middleLoader, (req, res) => {
@@ -180,6 +167,7 @@ chartRouter.delete('/:id', middleLoader, (req, res) => {
             return chart
         }    
     })
+    charts = charts.filter(chart => chart.id !== req.params.id)
     console.log(charts)
     writeFile(charts, chartsPath)
     res.json({message: 'chart deleted successfully'})  
@@ -187,19 +175,24 @@ chartRouter.delete('/:id', middleLoader, (req, res) => {
 })
 
 chartRouter.get('/:id/productos', middleLoader, middleChartIdentifier, (req, res) =>{                           
-    let idChart = charts.filter((chart) =>{
+   /*  let idChart = charts.filter((chart) =>{
         if(chart.id == req.params.id) {
             return chart
         }
-    })
-    console.log(idChart[0].prods)
-    res.json(idChart[0].prods)
+    }) */
+    /* console.log(idChart[0].prods)
+    res.json(idChart[0].prods) */
+    console.log(req.idChart.prods)
+    if (req.idChart.length > 0) {
+        res.json(req.idChart.prods)
+    }
+    else {res.json('chart is empty')}
 })
 
 chartRouter.post('/:id/productos', middleLoader, middleChartIdentifier,(req, res) =>{                         
+    console.log(req.body)
     console.log(req.params.id)
     charts = charts.map((chart) => {
-        console.log(chart.id)
         if (chart.id == req.params.id){
             chart.prods.push(...req.body)
         }
@@ -212,15 +205,13 @@ chartRouter.post('/:id/productos', middleLoader, middleChartIdentifier,(req, res
 chartRouter.delete('/:id/productos/:id_prod', middleLoader, middleChartIdentifier, (req, res) =>{                          
     let modChart = charts.map((idChart) => {
         if (idChart.id == req.params.id){
-            idChart.prods = idChart.prods.filter((prod) =>{
-                if (prod.id != req.params.id_prod) {
-                    return prod
-                }
-            })
+            idChart.prods = idChart.prods.filter(prod => prod.id != req.params.id_prod)
+            console.log(idChart.prods)
+            return idChart
         }
         return idChart
     })
-    if (modChart = charts) {res.json({message: 'no products deleted'})}
+    if (modChart == charts) {res.json({message: 'no products deleted'})}
     else{
         console.log(modChart)
         writeFile(modChart,chartsPath)
