@@ -63,7 +63,7 @@ const PORT = 8080
 
 // identificador de producto por ID en caso de existir el parametro
 function middleIdentifier (req, res, next){
-    let error = {mensaje: 'Producto no encontrado'}
+    let error = {mensaje: 'Product not found'}
     req.idProduct = products.find(product => product.id == req.params.id)
     if (req.params.id === undefined) {res.json(products)}
     else if(req.idProduct){
@@ -72,9 +72,18 @@ function middleIdentifier (req, res, next){
     else {res.json(error)}
 }
 
+function prodToChartVerif (req, res, next){
+    let error = {mensaje: 'Product not found'}
+    req.idProduct = products.find(product => product.id == req.params.id_prod)
+    if(req.idProduct){
+        next()
+    }
+    else {res.json(error)}
+}
+
 function middleChartIdentifier (req, res, next){
     if (req.params.id) {
-        let error = {mensaje: 'Producto no encontrado'}
+        let error = {mensaje: 'no charts found'}
         req.idChart = charts.find(chart => chart.id == req.params.id)
         if(req.idChart){
             next()
@@ -84,12 +93,13 @@ function middleChartIdentifier (req, res, next){
     else {next()}
 }
 
-//lector de archivos almacenados para rellenar products y chart
-function middleLoader (req, res, next){
+//lector de archivos almacenados para rellenar products y chart (PARA FUTUROS USOS)
+/* function middleLoader (req, res, next){
     products = loadFile(productsPath)
     charts = loadFile(chartsPath)
     next()
-}
+} */
+
 //simulador de permiso de administrador
 function middleAdminSim (req, res, next){
     req.query.admin == 1 ? next() : res.send('Access denied. Unauthorized request or route.')
@@ -105,7 +115,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 
-prodRouter.get('/:id?', middleLoader, middleIdentifier, (req, res) =>{
+prodRouter.get('/:id?', middleIdentifier, (req, res) =>{
     if (req.params.id) {
         let idProduct = req.idProduct
         console.log(idProduct)
@@ -118,7 +128,7 @@ prodRouter.get('/:id?', middleLoader, middleIdentifier, (req, res) =>{
 
 })
 
-prodRouter.post('/', middleAdminSim, middleLoader, (req, res) => {
+prodRouter.post('/', middleAdminSim, (req, res) => {
     console.log(products)
     let reqProd = req.body
     let newProduct = new Product(0, Date.now(), reqProd.name, reqProd.description, reqProd.code, reqProd.photo, parseInt(reqProd.price), parseInt(reqProd.stock))
@@ -129,7 +139,7 @@ prodRouter.post('/', middleAdminSim, middleLoader, (req, res) => {
     res.json({mensaje: `You have successfully added new product: ${newProduct.name}, id: ${newProduct.id} with the price of $${newProduct.price}`})
 })
 
-prodRouter.put('/:id', middleAdminSim, middleLoader, middleIdentifier, (req, res)=>{
+prodRouter.put('/:id', middleAdminSim,  middleIdentifier, (req, res)=>{
     products = products.map(product => {
         if (product.id == req.params.id) {
             product = {...product, ...req.body}
@@ -144,7 +154,7 @@ prodRouter.put('/:id', middleAdminSim, middleLoader, middleIdentifier, (req, res
     res.json({mensaje: 'Product successfully modified!'})
 })
 
-prodRouter.delete('/:id',middleAdminSim, middleLoader, middleIdentifier, (req, res) => {
+prodRouter.delete('/:id',middleAdminSim, middleIdentifier, (req, res) => {
     products = products.filter(product => product !== req.idProduct)
     console.log(products)
     writeFile(products, productsPath)
@@ -153,7 +163,7 @@ prodRouter.delete('/:id',middleAdminSim, middleLoader, middleIdentifier, (req, r
 
 /* Chart Router */
 
-chartRouter.post('/', middleLoader, (req, res) =>{
+chartRouter.post('/', (req, res) =>{
     let newChart = new Chart(0, Date.now(), [])
     newChart = {...newChart, id: (charts.length === 0 ? 1 : (charts[charts.length - 1].id + 1))}
     charts.push(newChart)
@@ -161,7 +171,7 @@ chartRouter.post('/', middleLoader, (req, res) =>{
     res.json({mensaje: `New empty chart created! id: ${newChart.id}`})
 })
 
-chartRouter.delete('/:id', middleLoader, (req, res) => {
+chartRouter.delete('/:id',(req, res) => {
     charts = charts.filter((chart) => {
         if (chart.id != req.params.id) {
             return chart
@@ -174,27 +184,18 @@ chartRouter.delete('/:id', middleLoader, (req, res) => {
     console.log('chart deleted successfully')
 })
 
-chartRouter.get('/:id/productos', middleLoader, middleChartIdentifier, (req, res) =>{                           
-   /*  let idChart = charts.filter((chart) =>{
-        if(chart.id == req.params.id) {
-            return chart
-        }
-    }) */
-    /* console.log(idChart[0].prods)
-    res.json(idChart[0].prods) */
+chartRouter.get('/:id/productos', middleChartIdentifier, (req, res) =>{                           
     console.log(req.idChart.prods)
-    if (req.idChart.length > 0) {
+    if (req.idChart.prods.length > 0) {
         res.json(req.idChart.prods)
     }
     else {res.json('chart is empty')}
 })
 
-chartRouter.post('/:id/productos', middleLoader, middleChartIdentifier,(req, res) =>{                         
-    console.log(req.body)
-    console.log(req.params.id)
+chartRouter.post('/:id/productos/:id_prod', middleChartIdentifier, prodToChartVerif,(req, res) =>{                         
     charts = charts.map((chart) => {
         if (chart.id == req.params.id){
-            chart.prods.push(...req.body)
+            chart.prods.push(req.idProduct)
         }
         return chart;
     })
@@ -202,7 +203,7 @@ chartRouter.post('/:id/productos', middleLoader, middleChartIdentifier,(req, res
     res.json({message: 'added ok'})
 })
 
-chartRouter.delete('/:id/productos/:id_prod', middleLoader, middleChartIdentifier, (req, res) =>{                          
+chartRouter.delete('/:id/productos/:id_prod', middleChartIdentifier, (req, res) =>{                          
     let modChart = charts.map((idChart) => {
         if (idChart.id == req.params.id){
             idChart.prods = idChart.prods.filter(prod => prod.id != req.params.id_prod)
@@ -218,7 +219,9 @@ chartRouter.delete('/:id/productos/:id_prod', middleLoader, middleChartIdentifie
         res.json({message:"product deleted successfully from chart"})
     }
 })
-/* ------------------------------------------------ */
+/*Starting app ------------------------------------------------ */
+products = loadFile(productsPath)
+charts = loadFile(chartsPath)
 
 /* initializing server -----------------------------------------------*/
 
