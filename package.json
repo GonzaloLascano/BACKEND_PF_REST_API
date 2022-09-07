@@ -10,7 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "connect-mongo": "^4.6.0",
+    "dot-env": "^0.0.1",
     "express": "^4.17.3",
-    "mongoose": "^6.4.4"
+    "express-handlebars": "^6.0.6",
+    "express-session": "^1.17.3",
+    "log4js": "^6.6.1",
+    "mongoose": "^6.4.4",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0"
   }
 }

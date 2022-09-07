@@ -13,3 +13,19 @@ La arquitectura de los modulos esta en etapa experimental. Hay que refinar las v
 > Deployed on Glitch: [project](https://glitch.com/edit/#!/twilight-lizard-hook/) [live site](https://twilight-lizard-hook.glitch.me/)
 
 > Written with [StackEdit](https://stackedit.io/).
+
+incorporado el modelo users con todos los parametros (sin filtros) V
+creados los endpoints de log in registro y log out. V
+iniciar passport, session, handlebars y copiar plantillas de render de log-in V
+Pasar los middleware y los controladores de usuarios de log in/out registro y sesiones
+Instalar dependencias
+
+probar corregir y adaptar funciones
+
+Crear variables de entorno
+
+implementar envio de mensajes
+
+actualizar logs de errores
+
+
