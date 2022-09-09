@@ -1,7 +1,9 @@
 /* controlador de carritos de Mongo */
 const mongoose = require('mongoose');
+const { logError } = require('../log');
 const ChartMongoModel = require('../models/db/chartsMongo')
 const { ProdMongoModel } = require('../models/db/productsMongo')
+const { UsersMongoModel } = require('../models/db/mongoUsers')
 
 const createChartM = async (req, res) => {
     try {
@@ -73,4 +75,23 @@ const deleteChartProductM =  async (req, res) => {
     
 }
 
-module.exports = {createChartM, deleteChartM, getChartProductsM, addProductToChartM, deleteChartProductM}
+const purchaseChart = async (req, res) => {
+    let response;
+    
+    try{
+        response.chart = await ChartMongoModel.findOne({chartId: req.params.id});
+    } catch(err) {
+        logError.error('chart not found');
+        res.json({mesaje:'could not delete requested chart'});    
+    }
+
+    try{
+        response.user = await UsersMongoModel.findOne({email: req.session.passport.user})
+    } catch(err) {
+        logError.error('userdata not found');
+        res.json({mesaje:'could not delete requested chart'});
+    }
+
+}
+
+module.exports = {createChartM, deleteChartM, getChartProductsM, addProductToChartM, deleteChartProductM, purchaseChart}

@@ -2,7 +2,7 @@
   <h2 class="my-3 border-bottom ">Welcome to registration!</h2>
   <form action="/users/reg" method="post" class="d-flex flex-column justify-content-around border-bottom"> 
     <div class="d-inline-flex flex-row p-0">
-      <input class="ms-0 me-2 w-50" type="text" name="username" placeholder="User"/>
+      <input class="ms-0 me-2 w-50" type="text" name="email" placeholder="User"/>
       <input class="ms-2 me-0 w-50" type="text" name="password" placeholder="Password"/>
     </div>
     <button type="submit" class="btn btn-outline-secondary mt-3">Sign Up!</button>
@@ -14,7 +14,7 @@
 <script>
 
 function toLogin() {
-    window.location.href='/login'
+    window.location.href='/users/login'
 }
 
 </script>

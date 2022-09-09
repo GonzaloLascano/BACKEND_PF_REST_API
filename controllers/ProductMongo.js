@@ -1,26 +1,32 @@
 /* controlador de productos de Mongo */
 const { response } = require('express');
 const mongoose = require('mongoose');
+const { logError, log, logWarn } = require('../log');
 const { ProdMongoModel, } = require('../models/db/productsMongo');
 
 const getProductsM = async (req, res) => {
+    let dataToSend = {
+        user: req.session.passport.user
+    }
     if (req.params.id) {
         try {
             let idProduct = await ProdMongoModel.findOne({ prodId: req.params.id })
-            console.log(idProduct)
+            log.info(idProduct)
             idProduct === null ? idProduct = 'product not found' : idProduct;
-            res.json(idProduct)
+            dataToSend.products = idProduct
         }
         catch(err){
-            console.log(err);
-            res.send('product not found')
+            logError.error(err);
+            dataToSend.products = 'product not found'
         }
         
     } else {
         let mongoProds = await ProdMongoModel.find();
         mongoProds.length === 0 ? mongoProds = 'no products found' : mongoProds;
-        res.json(mongoProds)
+        dataToSend.products = mongoProds
     }
+    log.info(dataToSend)
+    res.render('lista', { dataToSend } )
 }
 
 const addProductM = async (req, res) => {

@@ -24,9 +24,11 @@ passport.use('login', new LocalStrategy({
 }))
 
 passport.use('register', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
     passReqToCallback:true,
-},  function (req, username, password, done) {
-        UsersMongoModel.findOne({ 'username': username }, function (err, user) { //adapt to new user model (email)
+},  function (req, email, password, done) {
+        UsersMongoModel.findOne({ 'email': email }, function (err, user) { //adapt to new user model (email)
 
             if (err) {
                 logError.error('Error in SignUp: ' + err);
@@ -38,7 +40,18 @@ passport.use('register', new LocalStrategy({
                 return done(null, false)
             }
         
-            const newUser = {username: username, password: password}
+            const newUser = {
+                email: email, 
+                password: password,
+                realname: req.body.realname,
+                address: req.body.address,
+                age: parseInt(req.body.age),
+                phone: parseInt(req.body.phone),
+                photo: req.body.photo 
+            };
+
+            log.info(req.body)
+
             UsersMongoModel.create(newUser, (err) => {
                 if (err) {
                     logError.error('Error in Saving user: ' + err);
@@ -53,7 +66,7 @@ passport.use('register', new LocalStrategy({
 
 passport.serializeUser(function(user, done) {
     log.info(user);
-    done(null, user.username);
+    done(null, user.email);
 });
   
   passport.deserializeUser(function(username, done) {
@@ -64,10 +77,12 @@ passport.serializeUser(function(user, done) {
 
  const checkAuthentication = (req, res, done) => {
      if(req.isAuthenticated()) {
+        log.info('user is authorized')
         done();
     }
     else {
-        res.redirect('/login');
+        logWarn.warn('log in required')
+        res.redirect('/users/login');
     } 
 }
 

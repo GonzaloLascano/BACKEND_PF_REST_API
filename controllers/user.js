@@ -1,3 +1,4 @@
+const { logError, log, logWarn, } = require('../log.js')
 //Session and Registration
 
 let user = []
@@ -17,9 +18,10 @@ const getLogin = (req, res) => {
 
 const exit = (req, res) => {
     try {
-        log.info('User logging out')
+        let quittingUser = req.session.passport.user
+        log.info('User logging out ' + req.session.passport.user)
         req.session.destroy();
-        res.render('logout', {user});
+        res.render('logout', { quittingUser });
     } catch (error) {
         logError.error('Unable to log out' + error);
         res.status(500).send("error: ", error);

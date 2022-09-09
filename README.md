@@ -19,12 +19,11 @@ creados los endpoints de log in registro y log out. V
 iniciar passport, session, handlebars y copiar plantillas de render de log-in V
 Pasar los middleware y los controladores de usuarios de log in/out registro y sesiones
 Instalar dependencias
-
 probar corregir y adaptar funciones
 
-Crear variables de entorno
-
 implementar envio de mensajes
+
+Crear variables de entorno
 
 actualizar logs de errores
 

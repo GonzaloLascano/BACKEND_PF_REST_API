@@ -1,8 +1,11 @@
 {{> header }}
 <div class="d-flex flex-column justify-content-around container-sm my-5 p-4 shadow rounded-3">
   <h2 class="my-3 border-bottom ">Tabla de Productos Listados</h2>
-  {{#if products}}
-  <table class="table table-striped my-4">
+  {{#if dataToSend.products}}
+    <p>
+      {{dataToSend.products}} {{!-- solucion temporal por problemas para usar handlebars each --}}
+    </p>
+  {{!-- <table class="table table-striped my-4">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -12,21 +15,19 @@
       </tr>
     </thead>
     <tbody>
-    {{#each products}}
+    {{#each dataToSend.products}}
       <tr>
-        <th scope="row">{{this.id}}</th>
-        <td>{{this.title}}</td>
+        <th scope="row">{{this.prodId}}</th>
+        <td>{{this.name}}</td>
         <td>$ {{this.price}}</td>
-        <td><img src={{this.thumbnail}} width="56"></td>
+        <td><img src={{this.photo}} width="56"></td>
       </tr>
     {{/each}}
     </tbody>
-  </table>
+  </table> --}}
   {{else}}
   <h5 class="alert alert-dark">Ups :( no se encontraron productos!</h5>
   {{/if}}
-  <hr>
-  <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/';">Volver al Formulario</button>
 </div>
 
     

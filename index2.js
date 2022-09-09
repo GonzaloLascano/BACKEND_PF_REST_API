@@ -1,11 +1,11 @@
 const express = require('express')
 const routes = require('./routes/rindex')
 const app = express()
-const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 const session = require('express-session')
+const passport = require('passport')
 const connectMong = require('./dbConfig')
 const mongoStore = require('connect-mongo')
-const passport = require('passport')
+const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 const { engine } = require('express-handlebars')
 
 /* initializing server -----------------------------------------------*/

@@ -2,6 +2,7 @@ const chartRouter = require('express').Router();
 const { createChart, deleteChart, getChartProducts, addProductToChart, deleteChartProduct, middleChartIdentifier } = require('../controllers/chartfs')
 const { prodToChartVerif } = require('../controllers/productfs')
 const { createChartM, deleteChartM, getChartProductsM, addProductToChartM, deleteChartProductM } = require('../controllers/chartMongo')
+const { checkAuthentication } = require('../middleware/auth')
 
 
 /* fs chart endpoints */
@@ -19,6 +20,8 @@ chartRouter.delete('/:id', deleteChartM)
 chartRouter.get('/:id/productos', getChartProductsM)
 chartRouter.post('/:id/productos/:id_prod', addProductToChartM)
 chartRouter.delete('/:id/productos/:id_prod', deleteChartProductM)
+
+chartRouter.post('/id/purchase', checkAuthentication, purchaseChart)
 
 
 
