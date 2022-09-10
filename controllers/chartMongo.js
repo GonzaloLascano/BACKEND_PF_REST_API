@@ -1,9 +1,10 @@
 /* controlador de carritos de Mongo */
 const mongoose = require('mongoose');
-const { logError } = require('../log');
+const { logError, log } = require('../log');
 const ChartMongoModel = require('../models/db/chartsMongo')
 const { ProdMongoModel } = require('../models/db/productsMongo')
 const { UsersMongoModel } = require('../models/db/mongoUsers')
+const { sellMessage } = require('../twilioConfig.js')
 
 const createChartM = async (req, res) => {
     try {
@@ -76,20 +77,32 @@ const deleteChartProductM =  async (req, res) => {
 }
 
 const purchaseChart = async (req, res) => {
-    let response;
+    let soldChart
+    let buyerUser
     
+    //identificando el chart a comprar
     try{
-        response.chart = await ChartMongoModel.findOne({chartId: req.params.id});
-    } catch(err) {
-        logError.error('chart not found');
-        res.json({mesaje:'could not delete requested chart'});    
-    }
+        soldChart = await ChartMongoModel.findOne({chartId: req.params.id});
+        log.info(soldChart + 'at purchase sold')
+        buyerUser = await UsersMongoModel.findOne({email: req.session.passport.user});
+        
+        // se construyen funciones para verificar stock van aca
+        // si se contruyen funciones para ejecutar pagos van aca
+        // si se construyen funciones para descartar stock van aca
 
-    try{
-        response.user = await UsersMongoModel.findOne({email: req.session.passport.user})
+        //una vez superadas todas las etapas previas se envia mensaje de confirmacion
+        //tanto al comprador como al vendedor
+
+        let soldProductsNames = soldChart.prods.map( a => a.name )
+        let buyerText = `Felicidades, tu compra de: ${soldProductsNames} ha sido aprobada. En breve recibiras mas informacion.`
+        let sellerText = `Nueva venta de: ${JSON.stringify(soldChart.prods)} realizada. a ${req.session.passport.user}.`
+        let sellerPhone = '5491124049941'
+        sellMessage(sellerText, sellerPhone)//configurar sellerphone en variable de entorno.
+        sellMessage(buyerText, buyerUser.phone)
+        res.send('compra exitosa')
     } catch(err) {
-        logError.error('userdata not found');
-        res.json({mesaje:'could not delete requested chart'});
+        logError.error('at purchase' + err);
+        res.send('error en la compra' + err)  
     }
 
 }

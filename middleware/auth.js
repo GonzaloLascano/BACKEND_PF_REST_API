@@ -6,7 +6,7 @@ const { UsersMongoModel } = require('../models/db/mongoUsers.js')
 passport.use('login', new LocalStrategy({
     passReqToCallback: true,
 }, function(req, username, password, done) {
-    UsersMongoModel.findOne({ username }, (err, user) => {
+    UsersMongoModel.findOne({ email: username }, (err, user) => {
         if (err) return done(err)
 
         if (!user) {

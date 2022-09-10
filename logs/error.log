@@ -27,3 +27,20 @@
 [2022-09-08T16:46:43.839] [ERROR] error - Registration error
 [2022-09-08T16:47:13.359] [ERROR] error - User already exists
 [2022-09-08T16:47:13.418] [ERROR] error - Registration error
+[2022-09-10T18:02:19.936] [ERROR] error - wrong user credentials
+[2022-09-10T18:03:04.848] [ERROR] error - wrong user credentials
+[2022-09-10T18:06:16.629] [ERROR] error - wrong user credentials
+[2022-09-10T18:08:38.205] [ERROR] error - wrong user credentials
+[2022-09-10T18:22:08.915] [ERROR] error - chart not found
+[2022-09-10T18:22:08.967] [ERROR] error - userdata not found at purchase
+[2022-09-10T18:26:38.986] [ERROR] error - chart not found
+[2022-09-10T18:26:39.064] [ERROR] error - userdata not found at purchase
+[2022-09-10T18:27:29.393] [ERROR] error - chart not found
+[2022-09-10T18:27:29.447] [ERROR] error - userdata not found at purchase
+[2022-09-10T18:35:58.419] [ERROR] error - wrong user credentials
+[2022-09-10T18:37:57.643] [ERROR] error - wrong user credentials
+[2022-09-10T18:45:42.642] [ERROR] error - chart not found
+[2022-09-10T18:45:42.696] [ERROR] error - userdata not found at purchase
+[2022-09-10T19:01:53.575] [ERROR] error - at purchaseTypeError: Cannot read properties of undefined (reading 'map')
+[2022-09-10T19:03:07.640] [ERROR] error - at purchaseReferenceError: info is not defined
+[2022-09-10T19:03:45.446] [ERROR] error - at purchaseTypeError: Cannot read properties of undefined (reading 'map')
