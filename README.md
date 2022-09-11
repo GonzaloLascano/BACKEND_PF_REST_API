@@ -20,11 +20,8 @@ iniciar passport, session, handlebars y copiar plantillas de render de log-in V
 Pasar los middleware y los controladores de usuarios de log in/out registro y sesiones
 Instalar dependencias
 probar corregir y adaptar funciones
-
-implementar envio de mensajes
-
+implementar envio de mensajes al impactar endpoint de confirmacion de compra
 Crear variables de entorno
-
 actualizar logs de errores
 
 

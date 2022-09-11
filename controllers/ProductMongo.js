@@ -1,7 +1,7 @@
 /* controlador de productos de Mongo */
 const { response } = require('express');
 const mongoose = require('mongoose');
-const { logError, log, logWarn } = require('../log');
+const { logError, log, logWarn } = require('../config/log.js');
 const { ProdMongoModel, } = require('../models/db/productsMongo');
 
 const getProductsM = async (req, res) => {
@@ -43,12 +43,12 @@ const addProductM = async (req, res) => {
             price: parseInt(reqProd.price),
             stock: parseInt(reqProd.stock)
         })
-        console.log(response)
+        log.info(response + 'product was added')
 
         res.json({mensaje: `You have successfully added new product: ${response.name}, id: ${response.id} with the price of $${response.price}`})
     
     } catch(err){
-        console.log(err);
+        logError.error(err + 'could not add requested product');
         res.json({mensaje: 'could not add requested product'})
     }
     
@@ -57,11 +57,11 @@ const addProductM = async (req, res) => {
 const modifyProductM = async (req, res) => {
     try{
         const response = await ProdMongoModel.updateOne({prodId: req.params.id}, {$set:{...req.body, price: parseInt(req.body.price), stock: parseInt(req.body.stock)}});
-        console.log(response);
+        log.info(response + 'the product was successfully modified!');
         res.json({mensaje: 'Product successfully modified!'})
 
     } catch(err) {
-        console.log(err);
+        logError.error(err + 'unable to modify product');
         res.json({mensaje: 'unable to modify product'})
     }
 }    
@@ -70,11 +70,11 @@ const modifyProductM = async (req, res) => {
 const deleteProductM = async (req, res) => {
     try {
         const response = await ProdMongoModel.deleteOne({prodId: req.params.id})
-        console.log(response)
+        log.info('product deleted!')
         res.json({mensaje: 'product successfully deleted'})    
     } catch(err) {
-        console.log(err);
-        res.json({mensaje: 'unable to modify product'})
+        logError.error(err + 'unable to delete product');
+        res.json({mensaje: 'unable to delete product'})
     }
 }
 

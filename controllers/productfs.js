@@ -5,20 +5,16 @@ const { writeFile } = require('../models/fs/utils')
 const getProducts = (req, res) => {
     if (req.params.id) {
         let idProduct = req.idProduct
-        console.log(idProduct)
         res.json(idProduct)
     } else {
-        console.log("GET: " + JSON.stringify(products))
         res.json(products)
     }
 }
 
 const addProduct = (req, res) => {
-    //console.log(products)
     let reqProd = req.body
     let newProduct = new Product(0, Date.now(), reqProd.name, reqProd.description, reqProd.code, reqProd.photo, parseInt(reqProd.price), parseInt(reqProd.stock))
     newProduct.id = products.length === 0 ? 1 : (products[products.length - 1].id + 1)
-    console.log(newProduct)
     products.push(newProduct)
     writeFile(products, productsPath)
     res.json({mensaje: `You have successfully added new product: ${newProduct.name}, id: ${newProduct.id} with the price of $${newProduct.price}`})
@@ -34,14 +30,12 @@ const modifyProduct = (req, res) => {
             return product
         }
     })
-    console.log("PUT: " + JSON.stringify(products))
     writeFile(products, productsPath)
     res.json({mensaje: 'Product successfully modified!'})
 }
 
 const deleteProduct = (req, res) => {
     products = products.filter(product => product !== req.idProduct)
-    console.log(products)
     writeFile(products, productsPath)
     res.json({mensaje: 'product successfully deleted'})
 }
@@ -50,7 +44,6 @@ const deleteProduct = (req, res) => {
 function middleIdentifier (req, res, next) {
     let error = {mensaje: 'Product not found'}
     req.idProduct = products.find(product => product.id == req.params.id)
-    console.log("MIDDLE: " + JSON.stringify(products))
     //if (req.params.id === undefined) {res.json(products)}
     //else 
     if (req.idProduct || (req.params.id === undefined)) {

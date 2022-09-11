@@ -1,6 +1,6 @@
 /* controlador de carritos de Mongo */
 const mongoose = require('mongoose');
-const { logError, log } = require('../log');
+const { logError, log } = require('../config/log.js');
 const ChartMongoModel = require('../models/db/chartsMongo')
 const { ProdMongoModel } = require('../models/db/productsMongo')
 const { UsersMongoModel } = require('../models/db/mongoUsers')
@@ -9,11 +9,11 @@ const { sellMessage } = require('../twilioConfig.js')
 const createChartM = async (req, res) => {
     try {
         const idCount = await ChartMongoModel.findOne({}, {chartId:1}).sort({chartId: -1});
-        console.log(idCount);  
+        log.info(idCount + 'at chart creation');  
         const response = await ChartMongoModel.create({chartId: idCount == null ? 1 : idCount.chartId + 1, time: Date.now(), prods: []})
         res.json({mensaje: `New empty chart created! id: ${response.chartId}`})
     } catch (err) {
-        console.log(err);
+        logError.error(err + "at chart creation");
         res.json({mesaje:'could not create chart'});
     }
     
@@ -22,10 +22,9 @@ const createChartM = async (req, res) => {
 const deleteChartM = async (req, res) => {
     try{
         const response = await ChartMongoModel.deleteOne({chartId: req.params.id})
-        console.log(response)
         res.json({message: 'chart deleted successfully'})
     } catch(err) {
-        console.log(err);
+        logError.error(err + 'at chart deletion');
         res.json({mesaje:'could not delete requested chart'});    
     }
       
@@ -34,14 +33,14 @@ const deleteChartM = async (req, res) => {
 const getChartProductsM =  async (req, res) => {
     try{
         const response = await ChartMongoModel.findOne({chartId: req.params.id})
-        console.log(response.prods)                      
+        log.info(response.prods + "products in requested chart")                      
         if (response.prods.length > 0) {
             res.json(response.prods)
         }
         else {res.json('chart is empty')}
 
     } catch(err) {
-        console.log(err);
+        logError.error(err + 'Couldnt find products in chart');
         res.json({mesaje:'could not read database'});
     }    
     
@@ -53,7 +52,7 @@ const addProductToChartM = async (req, res) => {
         const selectedChart = await ChartMongoModel.findOneAndUpdate({chartId: req.params.id}, {$push: {prods: prodToAdd}})
         res.json({message: 'added ok'})
     } catch(err) {
-        console.log(err);
+        logError.error(err + 'Couldnt add products to chart');
         res.json({mesaje:'could not add product to recuested chart'});
     }                      
     
@@ -70,7 +69,7 @@ const deleteChartProductM =  async (req, res) => {
         )
         res.json({message:"product deleted successfully from chart"})
     } catch(err){
-        console.log(err);
+        logError.error(err + 'Couldnt delete product from chart');
         res.json({mesaje:'could not delete requested product from chart'});
     }
     

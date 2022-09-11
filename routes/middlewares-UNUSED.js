@@ -3,7 +3,6 @@
 function middleIdentifier (req, res, next) {
     let error = {mensaje: 'Product not found'}
     req.idProduct = products.find(product => product.id == req.params.id)
-    console.log("MIDDLE: " + JSON.stringify(products))
     //if (req.params.id === undefined) {res.json(products)}
     //else 
     if (req.idProduct || (req.params.id === undefined)) {

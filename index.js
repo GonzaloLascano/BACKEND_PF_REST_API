@@ -1,33 +1,34 @@
+require('dotenv').config();
 const express = require('express')
 const routes = require('./routes/rindex')
 const app = express()
+const { SERVER, SESSION, MONGO, } = require('./config/config.js')
 const session = require('express-session')
 const passport = require('passport')
-const connectMong = require('./dbConfig')
 const mongoStore = require('connect-mongo')
 const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+const connectMong = require('./config/dbConfig.js')
+const {log, logError, logWarn} = require('./config/log.js')
 const { engine } = require('express-handlebars')
 
 /* initializing server -----------------------------------------------*/
 
-const PORT = 8080
-
-const server = app.listen(PORT, async () => {
+const server = app.listen(SERVER.PORTPORT, async () => {
     await connectMong();
-    console.log('server listening on port: ' + server.address().port)
+    log.info('server listening on port: ' + server.address().port)
 })
-server.on('error', error => console.log({mensaje: `could not initiate server: ${error}`}))//log error
+server.on('error', error => logError.error(`could not initiate server: ${error}`))//log error
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 //Llamando session
 app.use(session({
-    secret: 'secreto',
+    secret: SESSION.SECRET,
     resave: true,
     saveUninitialized: true,
     store: mongoStore.create({
-        mongoUrl: "mongodb+srv://cosme:fulanito@cluster0.cd55fdx.mongodb.net/ecommerce?retryWrites=true&w=majority",
+        mongoUrl: MONGO.MONGOURL,
         mongoOptions: advancedOptions,
         collectionName: 'sessions'
     }),

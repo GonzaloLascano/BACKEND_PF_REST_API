@@ -9,7 +9,8 @@ const usersMongoSchema = new mongoose.Schema({
     address: String,
     age: Number,
     phone: Number,
-    photo: String
+    photo: String,
+    admin: Boolean
 })
 
 const UsersMongoModel = mongoose.model(usersCollectionName, usersMongoSchema)

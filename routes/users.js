@@ -1,7 +1,7 @@
 const passport = require('passport');
 require('../middleware/auth');
 const userRouter = require('express').Router();
-const { exit, getForm, getLogin, regForm, errorReg, errorLogin } = require('../controllers/userMongo');
+const { exit, getLogin, regForm, errorReg, errorLogin } = require('../controllers/userMongo');
 const { reqLog } = require('../middleware/reqLog.js')
 
 

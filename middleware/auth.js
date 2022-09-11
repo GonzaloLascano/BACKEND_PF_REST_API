@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { logError, logWarn, log } = require('../log');
+const { logError, logWarn, log } = require('../config/log.js');
 const { UsersMongoModel } = require('../models/db/mongoUsers.js')
 
 passport.use('login', new LocalStrategy({
@@ -57,7 +57,7 @@ passport.use('register', new LocalStrategy({
                     logError.error('Error in Saving user: ' + err);
                     return done(err);
                 }
-                console.log('User Registration succesful');
+                log.info('User Registration succesful');
                 return done(null, newUser);
             })
         });   

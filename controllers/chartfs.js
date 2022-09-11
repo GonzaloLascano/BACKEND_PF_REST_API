@@ -17,14 +17,13 @@ const deleteChart = (req, res) => {
         }    
     })
     charts = charts.filter(chart => chart.id !== req.params.id)
-    console.log(charts)
+   
     writeFile(charts, chartsPath)
     res.json({message: 'chart deleted successfully'})  
-    console.log('chart deleted successfully')
+    
 }
 
 const getChartProducts =  (req, res) => {                           
-    console.log(req.idChart.prods)
     if (req.idChart.prods.length > 0) {
         res.json(req.idChart.prods)
     }
@@ -46,14 +45,12 @@ const deleteChartProduct =  (req, res) => {
     let modChart = charts.map((idChart) => {
         if (idChart.id == req.params.id){
             idChart.prods = idChart.prods.filter(prod => prod.id != req.params.id_prod)
-            console.log(idChart.prods)
             return idChart
         }
         return idChart
     })
     if (modChart == charts) {res.json({message: 'no products deleted'})}
     else{
-        console.log(modChart)
         writeFile(modChart, chartsPath)
         res.json({message:"product deleted successfully from chart"})
     }

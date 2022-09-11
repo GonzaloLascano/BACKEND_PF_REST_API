@@ -6,7 +6,6 @@ function loadFile(path) {
         return JSON.parse(fs.readFileSync(path, 'utf-8'))
     }
     catch (err){
-        console.log('could not read file! ' + err)
         return []
     }
 }
@@ -16,7 +15,6 @@ async function writeFile(object, path) {
         await fs.promises.writeFile(path, JSON.stringify(object))
     }
     catch (err){
-        console.log('could not write file! ' + err)
     }
 }
 

@@ -2,7 +2,8 @@ const chartRouter = require('express').Router();
 const { createChart, deleteChart, getChartProducts, addProductToChart, deleteChartProduct, middleChartIdentifier } = require('../controllers/chartfs')
 const { prodToChartVerif } = require('../controllers/productfs')
 const { createChartM, deleteChartM, getChartProductsM, addProductToChartM, deleteChartProductM, purchaseChart } = require('../controllers/chartMongo')
-const { checkAuthentication } = require('../middleware/auth')
+const { checkAuthentication } = require('../middleware/auth');
+const { reqLog } = require('../middleware/reqLog');
 
 
 /* fs chart endpoints */
@@ -15,13 +16,14 @@ const { checkAuthentication } = require('../middleware/auth')
 
 /* Mongodb chart endpoints */
 
-chartRouter.post('/', createChartM)
-chartRouter.delete('/:id', deleteChartM)
-chartRouter.get('/:id/productos', getChartProductsM)
-chartRouter.post('/:id/productos/:id_prod', addProductToChartM)
-chartRouter.delete('/:id/productos/:id_prod', deleteChartProductM)
+//Crear middleware para verificar si el usuario es administrador y otorgar permisos. (actualizar modelo de UserMongo con ese parametro)
+chartRouter.post('/',  reqLog, checkAuthentication, createChartM)
+chartRouter.delete('/:id',  reqLog, checkAuthentication, deleteChartM)
+chartRouter.get('/:id/productos',  reqLog, checkAuthentication, getChartProductsM)
+chartRouter.post('/:id/productos/:id_prod',  reqLog, checkAuthentication, addProductToChartM)
+chartRouter.delete('/:id/productos/:id_prod',  reqLog, checkAuthentication, deleteChartProductM)
 
-chartRouter.post('/:id/purchase', checkAuthentication, purchaseChart)
+chartRouter.post('/:id/purchase', reqLog, checkAuthentication, purchaseChart)
 
 
 

@@ -1,4 +1,4 @@
-const { logError, log, logWarn, } = require('../log.js')
+const { logError, log, logWarn, } = require('../config/log.js');
 //Session and Registration
 
 let user = []
