@@ -44,3 +44,4 @@
 [2022-09-10T19:01:53.575] [ERROR] error - at purchaseTypeError: Cannot read properties of undefined (reading 'map')
 [2022-09-10T19:03:07.640] [ERROR] error - at purchaseReferenceError: info is not defined
 [2022-09-10T19:03:45.446] [ERROR] error - at purchaseTypeError: Cannot read properties of undefined (reading 'map')
+[2022-09-10T22:07:33.042] [ERROR] error - ReferenceError: log is not definedtrying to connect to database

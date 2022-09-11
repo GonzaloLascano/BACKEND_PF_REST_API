@@ -13,7 +13,7 @@ const { engine } = require('express-handlebars')
 
 /* initializing server -----------------------------------------------*/
 
-const server = app.listen(SERVER.PORTPORT, async () => {
+const server = app.listen(SERVER.PORT, async () => {
     await connectMong();
     log.info('server listening on port: ' + server.address().port)
 })

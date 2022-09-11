@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { MONGO } = require('./config.js');
-const { logError } = require('./log.js');
+const { logError, log } = require('./log.js');
 
 const connectMong = async () => {
     try {

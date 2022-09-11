@@ -4,7 +4,7 @@ const { logError, log } = require('../config/log.js');
 const ChartMongoModel = require('../models/db/chartsMongo')
 const { ProdMongoModel } = require('../models/db/productsMongo')
 const { UsersMongoModel } = require('../models/db/mongoUsers')
-const { sellMessage } = require('../twilioConfig.js')
+const { sellMessage } = require('../config/twilioConfig.js')
 
 const createChartM = async (req, res) => {
     try {
