@@ -9,7 +9,7 @@ const getForm = (req, res) => {
 }
 
 const regForm = (req, res) => {
-    req.session.passport.user ? res.render(`<h1> You are already logged in! </h1>`) : res.render('indexRegistration')
+    req.session.passport?.user ? res.send(`<h1> You are already logged in! </h1>`) : res.render('indexRegistration')
 }
 
 const getLogin = (req, res) => {

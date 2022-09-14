@@ -10,12 +10,12 @@ passport.use('login', new LocalStrategy({
         if (err) return done(err)
 
         if (!user) {
-            logError.error('could not find the user');
+            logError.error('could not find the user when logging in');
             return done(null, false);
         }
 
         if (password !== user.password) {
-            logWarn.warn('invalid password');
+            logWarn.warn('invalid password when logging in');
             return done(null, false)
         }
 
@@ -50,7 +50,7 @@ passport.use('register', new LocalStrategy({
                 photo: req.body.photo 
             };
 
-            log.info(req.body)
+            log.info('registrating new user' + req.body)
 
             UsersMongoModel.create(newUser, (err) => {
                 if (err) {
@@ -65,12 +65,12 @@ passport.use('register', new LocalStrategy({
 )
 
 passport.serializeUser(function(user, done) {
-    log.info(user);
+    log.info(user + "logged in");
     done(null, user.email);
 });
   
   passport.deserializeUser(function(username, done) {
-    log.info(username);
+    log.info(username + "logged out");
     let usuario = username;
     done(null, usuario);
 })

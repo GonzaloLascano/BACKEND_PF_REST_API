@@ -11,7 +11,7 @@ const getProductsM = async (req, res) => {
     if (req.params.id) {
         try {
             let idProduct = await ProdMongoModel.findOne({ prodId: req.params.id })
-            log.info(idProduct)
+            log.info(idProduct + "was found")
             idProduct === null ? idProduct = 'product not found' : idProduct;
             dataToSend.products = idProduct
         }
