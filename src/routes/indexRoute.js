@@ -5,7 +5,7 @@ const userRouter = require('./usersRoute');
 
 /* ----- Index Route ----- */
 
-indexRouterRouter.get('/', (req, res) => {
+indexRouter.get('/', (req, res) => {
     res.json({message: 'Rest Api - Proyecto Final Back End Coderhouse - Gonzalo Puñales'})
 })
 
