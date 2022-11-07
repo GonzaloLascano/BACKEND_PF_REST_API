@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
     "dot-env": "^0.0.1",
     "dotenv": "^16.0.2",
@@ -18,6 +20,7 @@
     "express-session": "^1.17.3",
     "log4js": "^6.6.1",
     "mongoose": "^6.4.4",
+    "nodemailer": "^6.8.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "twilio": "^3.82.0"

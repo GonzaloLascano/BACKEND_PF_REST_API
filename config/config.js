@@ -9,13 +9,22 @@ config.MONGO = {
 }
 
 config.SESSION = {
-    SECRET: process.env.SESSIONSECRET
+    SECRET: process.env.SESSIONSECRET,
+    TIMER: process.env.TIMER
 }
 
 config.TWILIO = {
     SID: process.env.SID,
     AUTHTOKEN: process.env.AUTHTOKEN,
-    ACCOUNTNUMBER: process.env.ACCOUNTNUMBER
+    ACCOUNTNUMBER: process.env.ACCOUNTNUMBER,
+    ADMINNUMBER: process.env.ADMINNUMBER
+}
+
+config.NODEMAILER = {
+    HOST: process.env.HOST,
+    PORT: process.env.MAILERPORT,
+    AUTHUSER: process.env.AUTHUSER,
+    AUTHPASSWORD: process.env.AUTHPASSWORD
 }
 
 module.exports = {...config}
