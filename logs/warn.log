@@ -80,3 +80,9 @@
 [2022-11-07T01:58:56.708] [WARN] warn - log in required
 [2022-11-07T06:22:42.341] [WARN] warn - log in required
 [2022-11-07T06:30:07.596] [WARN] warn - log in required
+[2022-11-11T23:33:13.079] [WARN] warn - log in required
+[2022-11-11T23:45:09.546] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-11T23:49:03.625] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-11T23:50:15.236] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-11T23:50:36.256] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-11T23:55:20.682] [WARN] warn - log in required

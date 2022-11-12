@@ -42,8 +42,8 @@ const productFinder = async (requestedProduct) => {
 }
 
 const productAdder = async (prodToAdd) => {
-    let response = productFinder(prodToAdd.code)
-    if (response.found) {
+    let response = await productFinder(prodToAdd.code)
+    if (response.notFound) {
         try{ 
             response = await ProdMongoModel.create({...prodToAdd})
             log.info(response + 'product was added to DB')
@@ -52,6 +52,9 @@ const productAdder = async (prodToAdd) => {
             response = {message: 'could not add requested product to db', error: err}
             logError.error(response);
         }
+    }
+    else{
+        response = {...response, message: 'the product already exists.'}
     } 
     return response
 }

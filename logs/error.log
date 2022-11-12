@@ -1112,3 +1112,20 @@
 [2022-11-07T06:30:22.544] [ERROR] error - { error: true, type: 'Missing credentials', message: undefined }
 [2022-11-07T06:31:17.142] [ERROR] error - { error: true, type: 'Missing credentials', message: undefined }
 [2022-11-07T06:31:42.861] [ERROR] error - { error: true, type: 'Missing credentials', message: undefined }
+[2022-11-11T23:50:15.256] [ERROR] error - {
+  message: 'could not add requested product to db',
+  error: Error: products validation failed: code: Path `code` (`lldfjfpas`) is longer than the maximum allowed length (8).
+      at ValidationError.inspect (C:\Users\betwe\OneDrive\Documentos\CoderHouse\Backend\Proyecto_Final - copia\Proyecto_Final\node_modules\mongoose\lib\error\validation.js:48:26)
+      at formatValue (node:internal/util/inspect:763:19)
+      at formatProperty (node:internal/util/inspect:1681:11)
+      at formatRaw (node:internal/util/inspect:1006:9)
+      at formatValue (node:internal/util/inspect:793:10)
+      at inspect (node:internal/util/inspect:340:10)
+      at formatWithOptionsInternal (node:internal/util/inspect:2006:40)
+      at Object.format (node:internal/util/inspect:1880:10)
+      at basicLayout (C:\Users\betwe\OneDrive\Documentos\CoderHouse\Backend\Proyecto_Final - copia\Proyecto_Final\node_modules\log4js\lib\layouts.js:65:52)
+      at app (C:\Users\betwe\OneDrive\Documentos\CoderHouse\Backend\Proyecto_Final - copia\Proyecto_Final\node_modules\log4js\lib\appenders\file.js:98:23) {
+    errors: { code: [ValidatorError] },
+    _message: 'products validation failed'
+  }
+}
