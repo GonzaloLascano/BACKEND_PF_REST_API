@@ -20,7 +20,7 @@ const chartFinder = async (requestedChartId) => {
         logError.error(response)
     }
     if (response === null) {
-        response = {message: 'Chart wasnt found', found: false}
+        response = {message: 'Chart wasnt found', notFound: true}
         logWarn.warn(response)
     }
     return response
@@ -78,6 +78,9 @@ const chartDeleter = async (requestedChartId) => {
 const productInChartUpdater = async (chartId, product, amount) => {//product vendria heredado de stockchecker
     let result
     let requestedChart = await chartFinder(chartId, false)
+    if (requestedChart.notFound){
+        return requestedChart
+    }
     let chartProductIndex = requestedChart.prods.findIndex(prod => prod._id == product._id)
     if (chartProductIndex === -1) {
         result = await productToChart(requestedChart._id, product, amount)
@@ -120,6 +123,9 @@ const productToChart = async (chartId, product, amount) => {
 const chartProductDeleter = async (requestedChartId, requestedProductId) => {
     let response;
     let requestedChart = await chartFinder(requestedChartId, false)
+    if(requestedChart.notFound) {
+        return requestedChart
+    }
     let chartProductIndex = requestedChart.prods.findIndex(prod => prod._id === requestedProductId)
     if (chartProductIndex == -1) {
         return response = {message:'The product is not inside the chart', inChart: false}

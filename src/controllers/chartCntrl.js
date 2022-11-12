@@ -9,6 +9,9 @@ const createChart = async (req, res) => {
 
 const getChartProducts =  async (req, res) => {
     let response = await chartFinder(req.params.id);
+    if (response.notFound) {
+        return res.json(response)     
+    }
     response.prods.length == 0 ? res.json ({message: 'chart is empty'}) : 
     res.json(response.prods)
 }

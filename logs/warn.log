@@ -86,3 +86,14 @@
 [2022-11-11T23:50:15.236] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
 [2022-11-11T23:50:36.256] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
 [2022-11-11T23:55:20.682] [WARN] warn - log in required
+[2022-11-12T14:28:09.065] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-12T14:30:12.459] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-12T14:31:58.115] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-12T14:45:45.856] [WARN] warn - log in required
+[2022-11-12T15:34:59.223] [WARN] warn - log in required
+[2022-11-12T16:06:17.484] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-12T16:06:32.206] [WARN] warn - { message: 'product wasnt found', notFound: true, error: true }
+[2022-11-12T16:06:48.555] [WARN] warn - { message: 'Chart wasnt found', found: false }
+[2022-11-12T16:11:52.483] [WARN] warn - log in required
+[2022-11-12T16:12:21.066] [WARN] warn - { message: 'Chart wasnt found', notFound: true }
+[2022-11-12T16:20:04.909] [WARN] warn - { message: 'Chart wasnt found', notFound: true }
